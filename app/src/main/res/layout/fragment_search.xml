@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="model"
+            type="com.example.countrysearch.CountryViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".SearchDetailsFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_tag"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Search for country"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <androidx.appcompat.widget.SearchView
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:id="@+id/search"
+                android:background="@drawable/bg_search_view"
+                app:iconifiedByDefault="false"
+                app:queryHint="search for country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_blank_fragment"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/loading_view"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:indeterminate="true"
+                android:layout_gravity="center"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:background="#F9F9F9"
+                android:layout_margin="16dp"
+                android:id="@+id/item_recycler_view"
+                tools:listitem="@layout/country_list_item"
+                tools:itemCount="3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
