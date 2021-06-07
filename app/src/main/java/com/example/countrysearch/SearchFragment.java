@@ -85,7 +85,8 @@ public class SearchFragment extends Fragment {
                         break;
 
                     case ERROR:
-                        //binding.loadingView.setVisibility(View.VISIBLE);
+                        binding.errorView.setVisibility(View.VISIBLE);
+                        binding.errorView.setText(countries.message);
                         break;
 
                 }

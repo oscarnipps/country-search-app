@@ -44,8 +44,6 @@ public class CountryViewModel extends AndroidViewModel {
 
                                     countryItems = handleCountryResponse(countryGetApiResponse.body());
 
-                                    mCountryList.postValue(Resource.success(countryItems));
-
                                     return countryItems;
                                 }
                             }
@@ -57,7 +55,7 @@ public class CountryViewModel extends AndroidViewModel {
                         .subscribeWith(new DisposableSingleObserver<List<Country>>() {
                             @Override
                             public void onSuccess(List<Country> countries) {
-
+                                mCountryList.postValue(Resource.success(countries));
                             }
 
                             @Override

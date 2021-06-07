@@ -56,6 +56,16 @@
                 android:layout_gravity="center"
                 />
 
+            <TextView
+                android:id="@+id/error_view"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:fontFamily="@font/raleway_bold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="search country by name"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:background="#F9F9F9"
                 android:layout_margin="16dp"

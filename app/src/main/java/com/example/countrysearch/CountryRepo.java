@@ -9,7 +9,7 @@ public class CountryRepo {
 
     private static final String TAG = CountryRepo.class.getSimpleName();
     private static CountryRepo mInstance;
-    private CountrySearchClient countrySearchClient;
+    private CountrySearchService countrySearchService;
 
     public static CountryRepo getInstance() {
         if (mInstance == null) {
@@ -23,10 +23,10 @@ public class CountryRepo {
     }
 
     private CountryRepo() {
-        countrySearchClient = ServiceGenerator.createService(CountrySearchClient.class);
+        countrySearchService = ServiceGenerator.createService(CountrySearchService.class);
     }
 
     public Single<Response<List<CountryGetApiResponse>>> searchForCountry(String searchQuery) {
-       return countrySearchClient.searchForCountry(searchQuery);
+       return countrySearchService.searchForCountry(searchQuery);
     }
 }
