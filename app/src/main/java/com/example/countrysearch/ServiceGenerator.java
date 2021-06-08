@@ -24,6 +24,7 @@ public class ServiceGenerator {
 
     //customize builder as required i.e add logging or network interceptor
     private static OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder()
+            .addInterceptor(new CountryNetworkInterceptor())
             .addInterceptor(loggingInterceptor);
 
     private static Retrofit retrofit = new Retrofit.Builder()

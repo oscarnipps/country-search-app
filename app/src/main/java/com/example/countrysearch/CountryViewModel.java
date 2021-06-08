@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class CountryViewModel extends AndroidViewModel {
@@ -52,17 +51,11 @@ public class CountryViewModel extends AndroidViewModel {
 
                             return countryItems;
                         })
-                        .subscribeWith(new DisposableSingleObserver<List<Country>>() {
-                            @Override
-                            public void onSuccess(List<Country> countries) {
-                                mCountryList.postValue(Resource.success(countries));
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                Log.d(TAG, "error searching for user : " + throwable.getLocalizedMessage());
-                                mCountryList.postValue(Resource.error("error searching for item", null));
-                            }
+                        .subscribe(countries -> {
+                            mCountryList.postValue(Resource.success(countries));
+                        } , throwable -> {
+                            Log.d(TAG, "error searching for user : " + throwable.getLocalizedMessage());
+                            mCountryList.postValue(Resource.error("error searching for item", null));
                         })
         );
     }
