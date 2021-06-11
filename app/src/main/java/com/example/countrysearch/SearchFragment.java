@@ -71,11 +71,8 @@ public class SearchFragment extends Fragment {
 
     private void setUpObservers() {
         countryViewModel.observeCountries().observe(getViewLifecycleOwner(), countries -> {
-            if (countries != null) {
 
-                if (countries.data != null) {
-                    Log.d(TAG, "country items : " + countries.data.size());
-                }
+            if (countries != null) {
 
                 switch (countries.status) {
 
@@ -90,6 +87,7 @@ public class SearchFragment extends Fragment {
                         break;
 
                     case ERROR:
+                        binding.loadingView.setVisibility(View.GONE);
                         binding.errorView.setVisibility(View.VISIBLE);
                         binding.errorView.setText(countries.message);
                         break;

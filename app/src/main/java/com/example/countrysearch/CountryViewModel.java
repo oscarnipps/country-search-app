@@ -20,11 +20,12 @@ public class CountryViewModel extends AndroidViewModel {
     private CountryRepo countryRepo;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MutableLiveData<Resource<List<Country>>> mCountryList = new MutableLiveData<>();
+    private List<Country> countryItems;
 
 
     public CountryViewModel(@NonNull Application application) {
         super(application);
-        countryRepo = CountryRepo.getInstance();
+        countryRepo = CountryRepo.getInstance(application);
     }
 
     public void searchForCountry(String searchQuery) {
@@ -34,29 +35,33 @@ public class CountryViewModel extends AndroidViewModel {
                 countryRepo.searchForCountry(searchQuery)
                         .subscribeOn(Schedulers.io())
                         .map(countryGetApiResponse -> {
-                            List<Country> countryItems = new ArrayList<>();
 
-                            if (countryGetApiResponse != null) {
+                            Log.d(TAG, "countries response body : " + countryGetApiResponse.body());
 
-                                if (countryGetApiResponse.body() != null) {
-                                    Log.d(TAG, "countries size from api : " + countryGetApiResponse.body().size());
+                            if (countryGetApiResponse.body() != null) {
+                                Log.d(TAG, "countries size from api : " + countryGetApiResponse.body().size());
 
-                                    countryItems = handleCountryResponse(countryGetApiResponse.body());
+                                countryItems = handleCountryResponse(countryGetApiResponse.body());
 
-                                    return countryItems;
-                                }
+                                return countryItems;
                             }
 
                             mCountryList.postValue(Resource.error("no country matching search", null));
 
                             return countryItems;
                         })
-                        .subscribe(countries -> {
-                            mCountryList.postValue(Resource.success(countries));
-                        } , throwable -> {
-                            Log.d(TAG, "error searching for user : " + throwable.getLocalizedMessage());
-                            mCountryList.postValue(Resource.error("error searching for item", null));
-                        })
+                        .subscribe(
+                                countries -> {
+                                    if (countryItems != null) {
+                                        mCountryList.postValue(Resource.success(countries));
+                                    }
+
+                                },
+                                throwable -> {
+                                    Log.d(TAG, "error searching for country : " + throwable.getLocalizedMessage());
+                                    mCountryList.postValue(Resource.error("error searching for item", null));
+                                }
+                        )
         );
     }
 
