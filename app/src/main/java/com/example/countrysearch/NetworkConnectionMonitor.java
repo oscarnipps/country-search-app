@@ -1,8 +1,10 @@
 package com.example.countrysearch;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
@@ -13,49 +15,68 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
-public class NetworkConnection extends LiveData<Boolean> {
+public class NetworkConnectionMonitor extends LiveData<Boolean> {
 
-    public static final String TAG = NetworkConnection.class.getSimpleName();
+    public static final String TAG = NetworkConnectionMonitor.class.getSimpleName();
     private ConnectivityManager.NetworkCallback networkCallback;
     private ConnectivityManager connectivityManager;
+    private Context context;
+    private NetworkMonitorReceiver networkMonitorReceiver = new NetworkMonitorReceiver();
 
 
-    public NetworkConnection(Context context) {
+    public NetworkConnectionMonitor(Context context) {
+        this.context = context;
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     @Override
     protected void onActive() {
         super.onActive();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setUpNetworkCallback();
+            setUpNetworkMonitor();
             return;
         }
 
+        context.registerReceiver(
+                networkMonitorReceiver,
+                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        );
+    }
+
+    private void updateNetworkMonitor() {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         Log.d(TAG, "network info : " + networkInfo);
 
-        switch (networkInfo.getType()) {
+        if (networkInfo != null) {
 
-            case ConnectivityManager.TYPE_WIFI:
-                Log.d(TAG, "network info wifi is connected");
-                postValue(true);
-                break;
+            switch (networkInfo.getType()) {
 
-            case ConnectivityManager.TYPE_MOBILE:
-                Log.d(TAG, "network info mobile is connected");
-                postValue(true);
-                break;
+                case ConnectivityManager.TYPE_WIFI:
+                    Log.d(TAG, "network info wifi is connected");
+                    postValue(true);
+                    break;
 
-            default:
-                Log.d(TAG, "not network is connected");
-                postValue(false);
+                case ConnectivityManager.TYPE_MOBILE:
+                    Log.d(TAG, "network info mobile is connected");
+                    postValue(true);
+                    break;
+
+                case ConnectivityManager.TYPE_VPN:
+                    Log.d(TAG, "network info vpn is connected");
+                    postValue(true);
+                    break;
+            }
+
+            return;
         }
+
+        postValue(false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void setUpNetworkCallback() {
+    private void setUpNetworkMonitor() {
         networkCallback = getNetworkCallback();
 
         NetworkRequest networkRequest = new NetworkRequest.Builder()
@@ -71,21 +92,21 @@ public class NetworkConnection extends LiveData<Boolean> {
 
         return new ConnectivityManager.NetworkCallback() {
             @Override
-            public void onAvailable(@NonNull Network network) {
+            public void onAvailable(@NonNull android.net.Network network) {
                 super.onAvailable(network);
                 Log.d(TAG, "network available...");
                 postValue(true);
             }
 
             @Override
-            public void onLost(@NonNull Network network) {
+            public void onLost(@NonNull android.net.Network network) {
                 super.onLost(network);
                 Log.d(TAG, "network lost...");
                 postValue(false);
             }
 
             @Override
-            public void onCapabilitiesChanged(@NonNull Network network, @NonNull NetworkCapabilities networkCapabilities) {
+            public void onCapabilitiesChanged(@NonNull android.net.Network network, @NonNull NetworkCapabilities networkCapabilities) {
                 super.onCapabilitiesChanged(network, networkCapabilities);
                 Log.d(TAG, "capability changed : " + networkCapabilities.toString());
             }
@@ -99,9 +120,19 @@ public class NetworkConnection extends LiveData<Boolean> {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             connectivityManager.unregisterNetworkCallback(networkCallback);
+            networkCallback = null;
         }
 
-        networkCallback = null;
+        context.unregisterReceiver(networkMonitorReceiver);
+
+        context = null;
+    }
+
+    private  class NetworkMonitorReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateNetworkMonitor();
+        }
     }
 
 }

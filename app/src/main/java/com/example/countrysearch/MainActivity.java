@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
-    private NetworkConnection networkConnection;
+    private NetworkConnectionMonitor networkConnectionMonitor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
 
-        networkConnection = new NetworkConnection(this);
+        networkConnectionMonitor = new NetworkConnectionMonitor(this);
 
-        networkConnection.observe(this,isConnected -> {
+        networkConnectionMonitor.observe(this, isConnected -> {
             Log.d(TAG, "is network connected : " + isConnected);
             binding.offlineIndicator.setVisibility(isConnected ? View.GONE : View.VISIBLE);
         });
