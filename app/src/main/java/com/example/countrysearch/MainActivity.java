@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
 
-        networkConnection = new NetworkConnection(getApplicationContext());
+        networkConnection = new NetworkConnection(this);
 
         networkConnection.observe(this,isConnected -> {
             Log.d(TAG, "is network connected : " + isConnected);

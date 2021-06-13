@@ -34,7 +34,24 @@ public class NetworkConnection extends LiveData<Boolean> {
 
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-        postValue(networkInfo.isConnected());
+        Log.d(TAG, "network info : " + networkInfo);
+
+        switch (networkInfo.getType()) {
+
+            case ConnectivityManager.TYPE_WIFI:
+                Log.d(TAG, "network info wifi is connected");
+                postValue(true);
+                break;
+
+            case ConnectivityManager.TYPE_MOBILE:
+                Log.d(TAG, "network info mobile is connected");
+                postValue(true);
+                break;
+
+            default:
+                Log.d(TAG, "not network is connected");
+                postValue(false);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
