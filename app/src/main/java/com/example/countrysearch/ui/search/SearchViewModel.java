@@ -1,42 +1,54 @@
-package com.example.countrysearch;
+package com.example.countrysearch.ui.search;
 
-import android.app.Application;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import com.example.countrysearch.data.Resource;
+import com.example.countrysearch.data.model.Country;
+import com.example.countrysearch.data.repo.SearchRepo;
+import com.example.countrysearch.network.model.CountryGetApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class CountryViewModel extends AndroidViewModel {
+public class SearchViewModel extends ViewModel {
 
-    private static final String TAG = CountryViewModel.class.getSimpleName();
-    private CountryRepo countryRepo;
+    private static final String TAG = SearchViewModel.class.getSimpleName();
+    private SearchRepo mSearchRepo;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MutableLiveData<Resource<List<Country>>> mCountryList = new MutableLiveData<>();
     private List<Country> countryItems;
 
 
-    public CountryViewModel(@NonNull Application application) {
-        super(application);
-        countryRepo = CountryRepo.getInstance(application);
+    @Inject
+    public SearchViewModel(SearchRepo searchRepo, String name) {
+        Log.d(TAG, "module name : " + name);
+        mSearchRepo = searchRepo;
     }
 
     public void searchForCountry(String searchQuery) {
         mCountryList.setValue(Resource.loading(null));
 
         compositeDisposable.add(
-                countryRepo.searchForCountry(searchQuery)
+                mSearchRepo.searchForCountry(searchQuery)
                         .subscribeOn(Schedulers.io())
                         .map(countryGetApiResponse -> {
 
-                            Log.d(TAG, "countries response body : " + countryGetApiResponse.body());
+                            if (countryGetApiResponse.raw().cacheResponse() != null) {
+                                Log.d(TAG, "countries response is from cache ");
+                            }
+
+                            if (countryGetApiResponse.raw().networkResponse() != null) {
+                                Log.d(TAG, "countries response is from network ");
+                            }
 
                             if (countryGetApiResponse.body() != null) {
                                 Log.d(TAG, "countries size from api : " + countryGetApiResponse.body().size());
@@ -69,23 +81,16 @@ public class CountryViewModel extends AndroidViewModel {
         List<Country> countryList = new ArrayList<>();
 
         for (CountryGetApiResponse response : data) {
-            Country country = new Country();
-
-            country.countryName = response.name;
-
-            country.callingCode = response.callingCodes.get(0);
-
-            country.countryCapital = response.capital;
-
-            country.population = response.population;
-
-            country.timezone = response.timezones.get(0);
-
-            country.language = response.languages.get(0).nativeName;
-
-            country.flag = response.flag;
-
-            country.currency = response.currencies.get(0).code;
+            Country country = new Country(
+                    response.name,
+                    response.callingCodes.get(0),
+                    response.capital,
+                    response.population,
+                    response.timezones.get(0),
+                    response.languages.get(0).nativeName,
+                    response.flag,
+                    response.currencies.get(0).code
+            );
 
             countryList.add(country);
         }

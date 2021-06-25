@@ -1,4 +1,4 @@
-package com.example.countrysearch;
+package com.example.countrysearch.ui.search;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,36 +10,45 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.countrysearch.R;
+import com.example.countrysearch.data.model.Country;
 import com.example.countrysearch.databinding.FragmentSearchBinding;
+import com.example.countrysearch.di.ViewModelProviderFactory;
 
 import java.util.List;
 
-public class SearchFragment extends Fragment {
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
+public class SearchFragment extends DaggerFragment {
 
     private static final String TAG = SearchFragment.class.getSimpleName();
     private FragmentSearchBinding binding;
     private NavController navController;
-    private CountryViewModel countryViewModel;
+    private SearchViewModel searchViewModel;
     private RecyclerView mRecyclerview;
-    private CountryAdapter mCountryAdapter;
+    private SearchItemAdapter mSearchItemAdapter;
     private List<Country> mCountryList;
+
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
 
-        binding.titleTag.setOnClickListener(v -> navController.navigate(R.id.action_searchFragment_to_searchDetailsFragment));
+        searchViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SearchViewModel.class);
 
-        countryViewModel = new ViewModelProvider(this).get(CountryViewModel.class);
+        binding.favorites.setOnClickListener(v -> navController.navigate(R.id.navigate_to_favorite));
 
-        binding.setModel(countryViewModel);
+        binding.setModel(searchViewModel);
 
         binding.setLifecycleOwner(this);
 
@@ -51,11 +60,11 @@ public class SearchFragment extends Fragment {
     private void setUpRecyclerView() {
         mRecyclerview = binding.itemRecyclerView;
 
-        mCountryAdapter = new CountryAdapter(mCountryList);
+        mSearchItemAdapter = new SearchItemAdapter(mCountryList);
 
         mRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        mRecyclerview.setAdapter(mCountryAdapter);
+        mRecyclerview.setAdapter(mSearchItemAdapter);
     }
 
     @Override
@@ -70,7 +79,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void setUpObservers() {
-        countryViewModel.observeCountries().observe(getViewLifecycleOwner(), countries -> {
+        searchViewModel.observeCountries().observe(getViewLifecycleOwner(), countries -> {
 
             if (countries != null) {
 
@@ -83,7 +92,7 @@ public class SearchFragment extends Fragment {
                     case SUCCESS:
                         binding.loadingView.setVisibility(View.GONE);
                         binding.errorView.setVisibility(View.GONE);
-                        mCountryAdapter.setItems(countries.data);
+                        mSearchItemAdapter.setItems(countries.data);
                         break;
 
                     case ERROR:
@@ -101,8 +110,8 @@ public class SearchFragment extends Fragment {
         binding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "search query : ");
-                countryViewModel.searchForCountry(query);
+                Log.d(TAG, "search query : " + query);
+                searchViewModel.searchForCountry(query);
                 return false;
             }
 

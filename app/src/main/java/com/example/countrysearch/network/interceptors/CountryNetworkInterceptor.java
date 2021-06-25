@@ -1,4 +1,4 @@
-package com.example.countrysearch;
+package com.example.countrysearch.network.interceptors;
 
 import android.util.Log;
 
@@ -18,17 +18,16 @@ public class CountryNetworkInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
 
-        //get the request
         Request request = chain.request();
 
-        //get the response from the request
         Response response = chain.proceed(request);
 
-
         if (response.code() == 404) {
-            //logic to handle when a 401 is retrieved for now just log it
+            //logic to handle when a 404 is retrieved for now just log it
             Log.d(TAG , "response was gotten from the server and was 404");
         }
+
+
 
         return response;
     }

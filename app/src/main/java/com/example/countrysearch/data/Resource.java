@@ -1,4 +1,4 @@
-package com.example.countrysearch;
+package com.example.countrysearch.data;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

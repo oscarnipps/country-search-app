@@ -1,4 +1,6 @@
-package com.example.countrysearch;
+package com.example.countrysearch.network.service;
+
+import com.example.countrysearch.network.model.CountryGetApiResponse;
 
 import java.util.List;
 
@@ -11,4 +13,7 @@ public interface CountrySearchService {
 
     @GET("name/{searchQuery}")
     Single<Response<List<CountryGetApiResponse>>> searchForCountry(@Path("searchQuery") String searchQuery);
+
+   // Single<Response<CountryApiResponse>>
+    //CountryApiResponse contains list of countries
 }

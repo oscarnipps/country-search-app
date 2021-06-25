@@ -1,13 +1,15 @@
-package com.example.countrysearch;
+package com.example.countrysearch.ui.details;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
+import com.example.countrysearch.R;
 
-public class SearchDetailsFragment extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+public class SearchDetailsFragment extends DaggerFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

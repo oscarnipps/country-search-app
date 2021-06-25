@@ -7,18 +7,27 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.countrysearch.SearchFragment"
+        android:name="com.example.countrysearch.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_searchFragment_to_searchDetailsFragment"
+            android:id="@+id/navigate_to_details"
             app:destination="@id/searchDetailsFragment" />
+        <action
+            android:id="@+id/navigate_to_favorite"
+            app:destination="@id/favoriteFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/searchDetailsFragment"
-        android:name="com.example.countrysearch.SearchDetailsFragment"
+        android:name="com.example.countrysearch.ui.details.SearchDetailsFragment"
         android:label="fragment_search_details"
         tools:layout="@layout/fragment_search_details" />
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.countrysearch.ui.favorite.FavoriteFragment"
+        android:label="FavoriteFragment"
+        tools:layout="@layout/fragment_favorite"/>
 
 </navigation>

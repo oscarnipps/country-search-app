@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.example.countrysearch.CountryViewModel" />
+            type="com.example.countrysearch.ui.search.SearchViewModel" />
 
     </data>
 
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".SearchDetailsFragment">
+        tools:context=".ui.details.SearchDetailsFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,6 +46,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hello_blank_fragment"/>
+
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:padding="8dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/bg_favorite"
+                android:id="@+id/favorites"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_bold"
+                android:text="View Saved"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <ProgressBar
                 android:visibility="gone"

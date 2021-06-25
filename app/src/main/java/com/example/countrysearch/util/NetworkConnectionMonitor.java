@@ -1,4 +1,4 @@
-package com.example.countrysearch;
+package com.example.countrysearch.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -108,7 +108,7 @@ public class NetworkConnectionMonitor extends LiveData<Boolean> {
             @Override
             public void onCapabilitiesChanged(@NonNull android.net.Network network, @NonNull NetworkCapabilities networkCapabilities) {
                 super.onCapabilitiesChanged(network, networkCapabilities);
-                Log.d(TAG, "capability changed : " + networkCapabilities.toString());
+                //Log.d(TAG, "capability changed : " + networkCapabilities.toString());
             }
         };
     }
@@ -121,6 +121,7 @@ public class NetworkConnectionMonitor extends LiveData<Boolean> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             connectivityManager.unregisterNetworkCallback(networkCallback);
             networkCallback = null;
+            return;
         }
 
         context.unregisterReceiver(networkMonitorReceiver);

@@ -1,15 +1,18 @@
-package com.example.countrysearch;
+package com.example.countrysearch.ui;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.example.countrysearch.R;
 import com.example.countrysearch.databinding.ActivityMainBinding;
+import com.example.countrysearch.util.NetworkConnectionMonitor;
 
-public class MainActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class MainActivity extends DaggerAppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
@@ -19,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         networkConnectionMonitor = new NetworkConnectionMonitor(this);
 
