@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.countrysearch.R;
 import com.example.countrysearch.data.model.Country;
+import com.example.countrysearch.databinding.DemoDialogBinding;
 import com.example.countrysearch.databinding.FragmentSearchBinding;
 import com.example.countrysearch.di.ViewModelProviderFactory;
 
@@ -46,7 +47,7 @@ public class SearchFragment extends DaggerFragment {
 
         searchViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SearchViewModel.class);
 
-        binding.favorites.setOnClickListener(v -> navController.navigate(R.id.navigate_to_favorite));
+        binding.favorites.setOnClickListener(v -> showDemoDialog());
 
         binding.setModel(searchViewModel);
 
@@ -76,6 +77,24 @@ public class SearchFragment extends DaggerFragment {
         setUpSearchField();
 
         setUpObservers();
+    }
+
+    private void showDemoDialog() {
+        DemoDialogBinding dialogBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.demo_dialog,
+                null,
+                false
+        );
+
+        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setView(dialogBinding.getRoot())
+                .setCancelable(true)
+                .create();
+
+        dialog.show();
+
+        dialogBinding.okay.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void setUpObservers() {
