@@ -18,10 +18,10 @@ public class DatabaseModule {
     @Singleton
     @Provides
     static AppDatabase provideDatabase(Application context) {
-      return  Room.databaseBuilder(
+        return Room.databaseBuilder(
                 context,
                 AppDatabase.class,
-              Constants.DATABASE_NAME
+                Constants.DATABASE_NAME
         ).build();
     }
 

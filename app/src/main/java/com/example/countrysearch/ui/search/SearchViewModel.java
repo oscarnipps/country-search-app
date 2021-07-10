@@ -9,9 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.countrysearch.data.Resource;
 import com.example.countrysearch.data.model.Country;
 import com.example.countrysearch.data.repo.SearchRepo;
-import com.example.countrysearch.network.model.CountryGetApiResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,28 +38,6 @@ public class SearchViewModel extends ViewModel {
         compositeDisposable.add(
                 mSearchRepo.searchForCountry(searchQuery)
                         .subscribeOn(Schedulers.io())
-                        .map(countryGetApiResponse -> {
-
-                            if (countryGetApiResponse.raw().cacheResponse() != null) {
-                                Log.d(TAG, "countries response is from cache ");
-                            }
-
-                            if (countryGetApiResponse.raw().networkResponse() != null) {
-                                Log.d(TAG, "countries response is from network ");
-                            }
-
-                            if (countryGetApiResponse.body() != null) {
-                                Log.d(TAG, "countries size from api : " + countryGetApiResponse.body().size());
-
-                                countryItems = handleCountryResponse(countryGetApiResponse.body());
-
-                                return countryItems;
-                            }
-
-                            mCountryList.postValue(Resource.error("no country matching search", null));
-
-                            return countryItems;
-                        })
                         .subscribe(
                                 countries -> {
                                     if (countryItems != null) {
@@ -77,26 +53,7 @@ public class SearchViewModel extends ViewModel {
         );
     }
 
-    private List<Country> handleCountryResponse(List<CountryGetApiResponse> data) {
-        List<Country> countryList = new ArrayList<>();
 
-        for (CountryGetApiResponse response : data) {
-            Country country = new Country(
-                    response.name,
-                    response.callingCodes.get(0),
-                    response.capital,
-                    response.population,
-                    response.timezones.get(0),
-                    response.languages.get(0).nativeName,
-                    response.flag,
-                    response.currencies.get(0).code
-            );
-
-            countryList.add(country);
-        }
-
-        return countryList;
-    }
 
 
     public LiveData<Resource<List<Country>>> observeCountries() {
