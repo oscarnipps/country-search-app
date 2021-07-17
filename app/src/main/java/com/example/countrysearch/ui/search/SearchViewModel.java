@@ -1,7 +1,5 @@
 package com.example.countrysearch.ui.search;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -20,41 +18,39 @@ import io.reactivex.schedulers.Schedulers;
 public class SearchViewModel extends ViewModel {
 
     private static final String TAG = SearchViewModel.class.getSimpleName();
-    private SearchRepo mSearchRepo;
+    private SearchRepo mSearchRepoImpl;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MutableLiveData<Resource<List<Country>>> mCountryList = new MutableLiveData<>();
-    private List<Country> countryItems;
 
 
     @Inject
     public SearchViewModel(SearchRepo searchRepo, String name) {
-        Log.d(TAG, "module name : " + name);
-        mSearchRepo = searchRepo;
+        //Log.d(TAG, "module name : " + name);
+        mSearchRepoImpl = searchRepo;
     }
 
     public void searchForCountry(String searchQuery) {
         mCountryList.setValue(Resource.loading(null));
 
         compositeDisposable.add(
-                mSearchRepo.searchForCountry(searchQuery)
+                mSearchRepoImpl.searchForCountry(searchQuery)
                         .subscribeOn(Schedulers.io())
                         .subscribe(
                                 countries -> {
-                                    if (countryItems != null) {
+                                    if (countries != null && countries.size() > 0) {
                                         mCountryList.postValue(Resource.success(countries));
+                                        return;
                                     }
 
+                                    mCountryList.postValue(Resource.error("item does not exist", null));
                                 },
                                 throwable -> {
-                                    Log.d(TAG, "error searching for country : " + throwable.getLocalizedMessage());
+                                    //Log.d(TAG, "error searching for country : " + throwable.getLocalizedMessage());
                                     mCountryList.postValue(Resource.error("error searching for item", null));
                                 }
                         )
         );
     }
-
-
-
 
     public LiveData<Resource<List<Country>>> observeCountries() {
         return mCountryList;

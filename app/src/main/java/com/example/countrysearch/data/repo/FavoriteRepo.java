@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public class FavoriteRepo {
 
-    private static final String TAG = SearchRepo.class.getSimpleName();
+    private static final String TAG = SearchRepoImpl.class.getSimpleName();
     private static FavoriteRepo mInstance;
     private Context mContext;
     private FavoriteService mFavoriteService;

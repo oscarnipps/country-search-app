@@ -13,7 +13,4 @@ public interface CountrySearchService {
 
     @GET("name/{searchQuery}")
     Single<Response<List<CountryGetApiResponse>>> searchForCountry(@Path("searchQuery") String searchQuery);
-
-   // Single<Response<CountryApiResponse>>
-    //CountryApiResponse contains list of countries
 }

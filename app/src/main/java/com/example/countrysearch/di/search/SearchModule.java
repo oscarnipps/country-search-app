@@ -3,6 +3,7 @@ package com.example.countrysearch.di.search;
 import com.example.countrysearch.data.AppDatabase;
 import com.example.countrysearch.data.dao.SearchDao;
 import com.example.countrysearch.data.repo.SearchRepo;
+import com.example.countrysearch.data.repo.SearchRepoImpl;
 import com.example.countrysearch.network.service.CountrySearchService;
 
 import dagger.Module;
@@ -19,7 +20,7 @@ public class SearchModule {
 
     @Provides
     static SearchRepo provideSearchRepo(CountrySearchService searchService, SearchDao searchDao) {
-        return new SearchRepo(searchService, searchDao);
+        return new SearchRepoImpl(searchService, searchDao);
     }
 
     @Provides

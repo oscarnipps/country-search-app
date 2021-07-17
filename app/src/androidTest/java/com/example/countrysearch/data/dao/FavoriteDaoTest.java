@@ -5,7 +5,7 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.countrysearch.LiveDataTestUtil;
+import com.example.countrysearch.LiveDataAndroidTestUtil;
 import com.example.countrysearch.data.AppDatabase;
 import com.example.countrysearch.data.model.Country;
 
@@ -72,7 +72,7 @@ public class FavoriteDaoTest {
 
         mFavoriteDao.updateFavorite(mCountry).subscribe();
 
-        Country country = LiveDataTestUtil.getOrAwaitValue(mFavoriteDao.getFavoriteItem());
+        Country country = LiveDataAndroidTestUtil.getOrAwaitValue(mFavoriteDao.getFavoriteItem());
 
         assertTrue(country.getCurrency().equals(updatedCurrency) && country.getPopulation().equals(updatedPopulation));
 
