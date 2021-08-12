@@ -12,12 +12,13 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:background="?android:attr/colorBackground"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".ui.details.SearchDetailsFragment">
+        tools:context=".ui.search.SearchFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,41 +26,32 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/title_tag"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway_bold"
+                style="@style/Widget.CountrySearch.TextView"
                 android:text="@string/search_header_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                />
 
-            <androidx.appcompat.widget.SearchView
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:id="@+id/search"
-                android:background="@drawable/bg_search_view"
-                app:iconifiedByDefault="false"
-                app:queryHint="search for country"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField"
                 android:layout_width="match_parent"
+                app:startIconDrawable="@drawable/ic_search"
+                app:endIconMode="clear_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_blank_fragment"/>
+                app:hintEnabled="false"
+                >
 
-            <TextView
-                android:layout_gravity="center_horizontal"
-                android:padding="8dp"
-                android:textColor="#ffffff"
-                android:background="@drawable/bg_favorite"
-                android:id="@+id/favorites"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway_bold"
-                android:text="View Saved"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/query"
+                    android:layout_margin="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSearch"
+                    android:hint="@string/search_query_hint"
+                    android:inputType="text"
+                    android:fontFamily="@font/raleway_medium"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ProgressBar
                 android:visibility="gone"

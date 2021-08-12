@@ -1,6 +1,8 @@
 package com.example.countrysearch.ui.search;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -18,9 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.countrysearch.R;
 import com.example.countrysearch.data.model.Country;
-import com.example.countrysearch.databinding.DemoDialogBinding;
 import com.example.countrysearch.databinding.FragmentSearchBinding;
 import com.example.countrysearch.di.ViewModelProviderFactory;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -46,8 +47,6 @@ public class SearchFragment extends DaggerFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
 
         searchViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SearchViewModel.class);
-
-        binding.favorites.setOnClickListener(v -> navController.navigate(R.id.navigate_to_favorite));
 
         binding.setModel(searchViewModel);
 
@@ -108,18 +107,25 @@ public class SearchFragment extends DaggerFragment {
     }
 
     private void setUpSearchField() {
-        binding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        TextInputEditText editText =  binding.query;
+
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "search query : " + query);
-                searchViewModel.searchForCountry(query);
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String query) {
-                //Log.d(TAG, "on search query changed : " + query);
-                return false;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable query) {
+                if (query != null) {
+                    Log.d(TAG, "search query : " + query.toString());
+                    //searchViewModel.searchForCountry(query.toString());
+                }
             }
         });
     }

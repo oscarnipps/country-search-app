@@ -17,14 +17,9 @@
 
             <TextView
                 android:id="@+id/title_tag"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway_bold"
+                style="@style/Widget.CountrySearch.TextView"
                 android:text="Favourites"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+              />
 
             <TextView
                 android:visibility="visible"

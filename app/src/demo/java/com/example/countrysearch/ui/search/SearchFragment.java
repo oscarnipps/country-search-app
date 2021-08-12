@@ -47,7 +47,7 @@ public class SearchFragment extends DaggerFragment {
 
         searchViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SearchViewModel.class);
 
-        binding.favorites.setOnClickListener(v -> showDemoDialog());
+        //binding.favorites.setOnClickListener(v -> showDemoDialog());
 
         binding.setModel(searchViewModel);
 

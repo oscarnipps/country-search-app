@@ -9,13 +9,10 @@
         android:id="@+id/searchFragment"
         android:name="com.example.countrysearch.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/navigate_to_details"
             app:destination="@id/searchDetailsFragment" />
-        <action
-            android:id="@+id/navigate_to_favorite"
-            app:destination="@id/favoriteFragment" />
     </fragment>
 
     <fragment
@@ -28,6 +25,11 @@
         android:id="@+id/favoriteFragment"
         android:name="com.example.countrysearch.ui.favorite.FavoriteFragment"
         android:label="FavoriteFragment"
-        tools:layout="@layout/fragment_favorite"/>
+        tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.countrysearch.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>
