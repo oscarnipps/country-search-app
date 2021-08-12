@@ -11,5 +11,33 @@
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
+    <style name="TextAppearance.CountrySearch.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/raleway_medium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.CountrySearch.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/raleway_medium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.CountrySearch.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/raleway_medium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.CountrySearch.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+
+    </style>
+
+    <style name="TextAppearance.CountrySearch.Caption" parent="TextAppearance.MaterialComponents.Caption">
+
+    </style>
+
+    <style name="TextAppearance.CountrySearch.Overline" parent="TextAppearance.MaterialComponents.Overline">
+
+    </style>
 
 </resources>

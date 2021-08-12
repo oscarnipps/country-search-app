@@ -64,16 +64,14 @@
 
             <TextView
                 android:id="@+id/error_view"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:fontFamily="@font/raleway_bold"
+                android:textAppearance="?textAppearanceBody1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="search country by name"
                 />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:background="#F9F9F9"
                 android:layout_margin="16dp"
                 android:id="@+id/item_recycler_view"
                 tools:listitem="@layout/country_list_item"

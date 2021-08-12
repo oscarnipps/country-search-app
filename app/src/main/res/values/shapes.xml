@@ -7,7 +7,7 @@
 
     <style name="ShapeAppearance.CountrySearch.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent" >
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
+        <item name="cornerSize">8dp</item>
     </style>
 
     <style name="ShapeAppearance.CountrySearch.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent" >

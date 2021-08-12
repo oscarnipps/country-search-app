@@ -1,20 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.CountrySearch" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+    <!--use for light theme-->
+    <style name="Theme.CountrySearch" parent="Base.Theme.CountrySearch" >
         <!-- colors -->
-        <!-- for the "design_default_* you can also copy the values and use them in the colors.xml file") -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
-        <item name="colorSecondary">@color/design_default_color_secondary</item>
-        <item name="colorSecondaryVariant">@color/design_default_color_secondary_variant</item>
-        <item name="colorOnPrimary">@color/design_default_color_on_primary</item>
-        <item name="colorOnSecondary">@color/design_default_color_on_secondary</item>
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorPrimaryVariant">@color/brand_primary_dark</item>
+        <item name="colorSecondary">@color/brand_secondary</item>
+        <item name="colorSecondaryVariant">@color/brand_secondary_dark</item>
+        <item name="colorOnPrimary">@color/brand_on_primary_color</item>
+        <item name="colorOnSecondary">@color/brand_on_secondary_color</item>
         <item name="colorError">@color/design_default_color_error</item>
         <item name="colorOnError">#ffffff</item>
-        <item name="colorSurface">#ffffff</item>
-        <item name="colorOnSurface">#000000</item>
-        <item name="android:colorBackground">@color/design_default_color_background</item>
-        <item name="colorOnBackground">#000000</item>
+        <item name="colorSurface">@color/brand_light_surface</item>
+        <item name="colorOnSurface">@color/brand_on_light_surface</item>
+        <item name="android:colorBackground">@color/brand_light_background</item>
+        <item name="colorOnBackground">@color/brand_on_light_background</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
+    </style>
+    
+    
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CountrySearch" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!--shape-->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.CountrySearch.MediumComponent</item>
@@ -24,6 +30,12 @@
         <!--typography-->
         <item name="textAppearanceHeadline5">@style/TextAppearance.CountrySearch.Headline5</item>
         <item name="textAppearanceHeadline6">@style/TextAppearance.CountrySearch.Headline6</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.CountrySearch.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.CountrySearch.Body2</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.CountrySearch.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.CountrySearch.Subtitle2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.CountrySearch.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.CountrySearch.Overline</item>
 
 
         <!--components styles i.e toolbarStyle ,cardViewStyle ,tabStyle e.t.c -->
@@ -33,25 +45,21 @@
         <item name="android:textViewStyle">@style/Widget.CountrySearch.TextView</item>
 
         <!--system -->
-        <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">?android:attr/colorBackground</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 
 
-
-
     <style name="Widget.CountrySearch.CardView" parent="Widget.MaterialComponents.CardView" >
         <item name="shapeAppearance">@style/ShapeAppearance.CountrySearch.MediumComponent</item>
         <item name="cardBackgroundColor">?attr/colorSurface</item>
-        <item name="cardElevation">10dp</item>
+        <item name="cardElevation">8dp</item>
         <item name="android:layout_margin">16dp</item>
     </style>
 
     <style name="Widget.CountrySearch.TextView" parent="Widget.MaterialComponents.TextView" >
         <item name="android:textAppearance">?attr/textAppearanceHeadline5</item>
-        <item name="cardBackgroundColor">?attr/colorSurface</item>
         <item name="android:layout_marginTop">32dp</item>
         <item name="android:layout_marginStart">24dp</item>
         <item name="android:layout_marginBottom">16dp</item>
