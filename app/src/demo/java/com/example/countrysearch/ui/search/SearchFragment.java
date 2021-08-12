@@ -47,8 +47,6 @@ public class SearchFragment extends DaggerFragment {
 
         searchViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(SearchViewModel.class);
 
-        //binding.favorites.setOnClickListener(v -> showDemoDialog());
-
         binding.setModel(searchViewModel);
 
         binding.setLifecycleOwner(this);
@@ -126,18 +124,25 @@ public class SearchFragment extends DaggerFragment {
     }
 
     private void setUpSearchField() {
-        binding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        TextInputEditText editText =  binding.query;
+
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "search query : " + query);
-                searchViewModel.searchForCountry(query);
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String query) {
-                //Log.d(TAG, "on search query changed : " + query);
-                return false;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable query) {
+                if (query != null) {
+                    Log.d(TAG, "search query : " + query.toString());
+                    searchViewModel.searchForCountry(query.toString());
+                }
             }
         });
     }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.CountrySearch" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- colors -->
@@ -29,8 +29,18 @@
         <!--components styles i.e toolbarStyle ,cardViewStyle ,tabStyle e.t.c -->
         <item name="cardViewStyle">@style/Widget.CountrySearch.CardView</item>
         <item name="alertDialogStyle">@style/Widget.CountrySearch.Dialog</item>
+        <item name="bottomNavigationStyle">@style/Widget.CountrySearch.BottomNavigationView</item>
         <item name="android:textViewStyle">@style/Widget.CountrySearch.TextView</item>
+
+        <!--system -->
+        <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">?android:attr/colorBackground</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
+
+
+
 
     <style name="Widget.CountrySearch.CardView" parent="Widget.MaterialComponents.CardView" >
         <item name="shapeAppearance">@style/ShapeAppearance.CountrySearch.MediumComponent</item>
@@ -49,11 +59,21 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="Widget.CountrySearch.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
 
     <style name="Widget.CountrySearch.Dialog" parent="Theme.MaterialComponents.Dialog" >
         <item name="shapeAppearance">@style/ShapeAppearance.CountrySearch.MediumComponent</item>
         <item name="cardBackgroundColor">?attr/colorSurface</item>
     </style>
 
+    <style name="Widget.CountrySearch.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
 
 </resources>

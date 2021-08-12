@@ -12,6 +12,7 @@
 
     <style name="ShapeAppearance.CountrySearch.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent" >
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">40dp</item>
+        <item name="cornerSizeTopLeft">40dp</item>
+        <item name="cornerSizeTopRight">40dp</item>
     </style>
 </resources>

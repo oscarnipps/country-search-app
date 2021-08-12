@@ -124,7 +124,7 @@ public class SearchFragment extends DaggerFragment {
             public void afterTextChanged(Editable query) {
                 if (query != null) {
                     Log.d(TAG, "search query : " + query.toString());
-                    //searchViewModel.searchForCountry(query.toString());
+                    searchViewModel.searchForCountry(query.toString());
                 }
             }
         });

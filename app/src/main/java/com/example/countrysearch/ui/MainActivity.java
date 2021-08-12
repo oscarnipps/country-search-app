@@ -13,6 +13,8 @@ import com.example.countrysearch.R;
 import com.example.countrysearch.databinding.ActivityMainBinding;
 import com.example.countrysearch.util.NetworkConnectionMonitor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -30,7 +32,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        bottomNavigationView = binding.bottomNav;
+        setUpBottomNavigationView();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_host_container);
 
@@ -47,6 +49,22 @@ public class MainActivity extends DaggerAppCompatActivity {
             Log.d(TAG, "is network connected : " + isConnected);
             binding.offlineIndicator.setVisibility(isConnected ? View.GONE : View.VISIBLE);
         });
+    }
+
+    private void setUpBottomNavigationView() {
+        bottomNavigationView = binding.bottomNav;
+
+        //since bottom navigation view does not support shape appearance attribute
+        //use the shape appearance model to apply custom shapes
+        MaterialShapeDrawable bottomNavViewBackground = (MaterialShapeDrawable) bottomNavigationView.getBackground();
+
+        //todo: get the radius for the corner size from a dimen resource
+        bottomNavViewBackground.setShapeAppearanceModel( bottomNavViewBackground.getShapeAppearanceModel()
+                .toBuilder()
+                .setTopLeftCorner(CornerFamily.ROUNDED,32)
+                .setTopRightCorner(CornerFamily.ROUNDED,32)
+                .build()
+        );
     }
 
 }
