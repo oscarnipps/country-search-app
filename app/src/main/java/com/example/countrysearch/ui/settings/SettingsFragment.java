@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,6 +26,7 @@ public class SettingsFragment extends DaggerFragment {
     private static final String TAG = SettingsFragment.class.getSimpleName();
     private FragmentSettingsBinding binding;
     private NavController navController;
+    private String mThemeType;
 
 
     @Override
@@ -31,6 +34,8 @@ public class SettingsFragment extends DaggerFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false);
 
         binding.setLifecycleOwner(this);
+
+        mThemeType = getDefaultSetThemeType();
 
         binding.themeContainer.setOnClickListener(view -> showThemeSelectionDialog());
 
@@ -54,6 +59,27 @@ public class SettingsFragment extends DaggerFragment {
         dialog.show();
 
         dialogBinding.okay.setOnClickListener(v -> dialog.dismiss());
+
+        dialogBinding.themeGroup.setOnCheckedChangeListener((group, checkedId) -> {
+
+            switch (checkedId) {
+
+                case R.id.dark:
+                    Toast.makeText(requireContext(), "dark theme set", Toast.LENGTH_SHORT).show();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    mThemeType = getString(R.string.dark_theme);
+                    dialog.dismiss();
+                    break;
+
+                case R.id.light:
+                    Toast.makeText(requireContext(), "light theme set", Toast.LENGTH_SHORT).show();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    mThemeType = getString(R.string.light_theme);
+                    dialog.dismiss();
+                    break;
+            }
+
+        });
     }
 
 
@@ -62,5 +88,19 @@ public class SettingsFragment extends DaggerFragment {
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
+
+        binding.setThemeTypeValue(mThemeType);
+
+    }
+
+    private String getDefaultSetThemeType() {
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            mThemeType = getString(R.string.light_theme);
+            return mThemeType;
+        }
+
+        mThemeType = getString(R.string.dark_theme);
+        return mThemeType;
     }
 }

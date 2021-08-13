@@ -21,8 +21,8 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/raleway_bold"
-                android:text="Select Theme"
-                android:textColor="#000000"
+                android:text="@string/select_theme"
+                android:textAppearance="?textAppearanceBody1"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
@@ -37,14 +37,14 @@
                     android:id="@+id/light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Light"/>
+                    android:text="@string/light_theme"/>
 
                 <RadioButton
                     android:layout_margin="8dp"
                     android:id="@+id/dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dark"/>
+                    android:text="@string/dark_theme"/>
 
             </RadioGroup>
 
@@ -58,14 +58,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginBottom="24dp"
                     android:lineSpacingExtra="16dp"
                     android:text="cancel"
                     android:textAlignment="center"
-                    android:textColor="#D61111"
+                    android:textColor="?colorSecondary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
