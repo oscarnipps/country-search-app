@@ -45,7 +45,6 @@ public class SearchRepoImpl implements SearchRepo {
                     if (countryGetApiResponse.body() != null) {
                         Log.d(TAG, "countries size from api : " + countryGetApiResponse.body().size());
 
-                        //return handleCountryResponse(countryGetApiResponse.body());
                     }
 
                     return CountryMapperUtil.getCountryListFromApiResponse(countryGetApiResponse.body());
@@ -56,4 +55,5 @@ public class SearchRepoImpl implements SearchRepo {
     public LiveData<List<Country>> getCountryList() {
         return mSearchDao.getCountryList();
     }
+
 }
