@@ -2,18 +2,27 @@ package com.example.countrysearch.network;
 
 
 import com.example.countrysearch.MockResponseFileReader;
+import com.example.countrysearch.data.Constants;
+import com.example.countrysearch.data.dao.SearchDao;
+import com.example.countrysearch.data.repo.SearchRepoImpl;
+import com.example.countrysearch.network.service.CountrySearchService;
+import com.google.gson.GsonBuilder;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 
+import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,11 +32,14 @@ public class CountryServiceTest {
 
 
     //todo use hilt to inject dependencies for the testing
-    /*@Mock
+    @Mock
     private SearchRepoImpl searchRepo;
 
     @Mock
-    private CountrySearchService countrySearchService;*/
+    SearchDao searchDao;
+
+    @Mock
+    private CountrySearchService countrySearchService;
 
     private String successResponsePath = "src/test/java/com/example/countrysearch/resources/country_success.json";
 
@@ -38,7 +50,16 @@ public class CountryServiceTest {
     public void setUp() throws IOException {
         mockWebServer.start(MOCK_SERVER_PORT);
 
-        MockitoAnnotations.initMocks(this);
+        countrySearchService = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                        .excludeFieldsWithoutExposeAnnotation()
+                        .create()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(Constants.API_BASE_URL)
+                .client(new OkHttpClient.Builder().build())
+                .build().create(CountrySearchService.class);
+
+        searchRepo = new SearchRepoImpl(countrySearchService,searchDao);
     }
 
     @After
@@ -50,10 +71,11 @@ public class CountryServiceTest {
     public void name() {
         String query = "byt";
 
-        mockWebServer.enqueue(new MockResponse().setBody(MockResponseFileReader.getContent(successResponsePath)));
+        mockWebServer.enqueue(new MockResponse()
+                .setBody(MockResponseFileReader.getContent(successResponsePath)));
 
-        /*searchRepo.searchForCountry(query)
+        searchRepo.searchForCountry(query)
                 .test()
-                .assertNoErrors();*/
+                .assertSubscribed();
     }
 }

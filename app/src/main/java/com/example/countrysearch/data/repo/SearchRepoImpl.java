@@ -1,7 +1,5 @@
 package com.example.countrysearch.data.repo;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 
 import com.example.countrysearch.data.dao.SearchDao;
@@ -35,15 +33,15 @@ public class SearchRepoImpl implements SearchRepo {
                 .map((Response<List<CountryGetApiResponse>> countryGetApiResponse) -> {
 
                     if (countryGetApiResponse.raw().cacheResponse() != null) {
-                        Log.d(TAG, "countries response is from cache ");
+                        //Log.d(TAG, "countries response is from cache ");
                     }
 
                     if (countryGetApiResponse.raw().networkResponse() != null) {
-                        Log.d(TAG, "countries response is from network ");
+                        //Log.d(TAG, "countries response is from network ");
                     }
 
                     if (countryGetApiResponse.body() != null) {
-                        Log.d(TAG, "countries size from api : " + countryGetApiResponse.body().size());
+                        //Log.d(TAG, "countries size from api : " + countryGetApiResponse.body().size());
 
                     }
 

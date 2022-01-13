@@ -2,6 +2,7 @@ package com.example.countrysearch.ui.search;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -20,9 +21,11 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Co
     private List<Country> mItems;
     private CountryListItemBinding mItemBinding;
     private Context mContext;
+    private CountryItemInterface mListener;
 
-    public SearchItemAdapter(List<Country> mItems) {
+    public SearchItemAdapter(List<Country> mItems ,CountryItemInterface listener) {
         this.mItems = mItems;
+        this.mListener = listener;
     }
 
     public void setItems(List<Country> countryItems) {
@@ -31,7 +34,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Co
     }
 
     public interface CountryItemInterface {
-        void onCountryItemClicked();
+        void onCountryItemClicked(Country item);
     }
 
     @NonNull
@@ -59,13 +62,19 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Co
         return mItems == null ? 0 : mItems.size();
     }
 
-    public class CountryViewHolder extends RecyclerView.ViewHolder {
+    public class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CountryListItemBinding mHolderBinding;
 
         public CountryViewHolder(@NonNull CountryListItemBinding binding) {
             super(binding.getRoot());
             this.mHolderBinding = binding;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mListener.onCountryItemClicked(mItems.get(getBindingAdapterPosition()));
         }
     }
 }

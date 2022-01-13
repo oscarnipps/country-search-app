@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class SearchFragment extends DaggerFragment {
+public class SearchFragment extends DaggerFragment implements SearchItemAdapter.CountryItemInterface {
 
     private static final String TAG = SearchFragment.class.getSimpleName();
     private FragmentSearchBinding binding;
@@ -60,7 +61,7 @@ public class SearchFragment extends DaggerFragment {
     private void setUpRecyclerView() {
         mRecyclerview = binding.itemRecyclerView;
 
-        mSearchItemAdapter = new SearchItemAdapter(mCountryList);
+        mSearchItemAdapter = new SearchItemAdapter(mCountryList, this);
 
         mRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -107,7 +108,7 @@ public class SearchFragment extends DaggerFragment {
     }
 
     private void setUpSearchField() {
-        TextInputEditText editText =  binding.query;
+        TextInputEditText editText = binding.query;
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -129,4 +130,15 @@ public class SearchFragment extends DaggerFragment {
             }
         });
     }
+
+    @Override
+    public void onCountryItemClicked(Country item) {
+        Toast.makeText(requireContext(), "" + item.getCountryName(), Toast.LENGTH_SHORT).show();
+        Bundle args = new Bundle();
+
+        args.putParcelable("country-item", item);
+
+        navController.navigate(R.id.navigate_to_details, args);
+    }
+
 }

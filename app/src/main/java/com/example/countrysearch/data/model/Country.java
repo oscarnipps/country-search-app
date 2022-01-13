@@ -1,11 +1,15 @@
 package com.example.countrysearch.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+
 @Entity
-public class Country {
+public class Country implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -49,6 +53,34 @@ public class Country {
         this.currency = currency;
         this.flag = flag;
     }
+
+    protected Country(Parcel in) {
+        id = in.readInt();
+        countryName = in.readString();
+        callingCode = in.readString();
+        countryCapital = in.readString();
+        if (in.readByte() == 0) {
+            population = null;
+        } else {
+            population = in.readInt();
+        }
+        timezone = in.readString();
+        language = in.readString();
+        currency = in.readString();
+        flag = in.readString();
+    }
+
+    public static final Creator<Country> CREATOR = new Creator<Country>() {
+        @Override
+        public Country createFromParcel(Parcel in) {
+            return new Country(in);
+        }
+
+        @Override
+        public Country[] newArray(int size) {
+            return new Country[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -120,5 +152,28 @@ public class Country {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(countryName);
+        dest.writeString(callingCode);
+        dest.writeString(countryCapital);
+        if (population == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(population);
+        }
+        dest.writeString(timezone);
+        dest.writeString(language);
+        dest.writeString(currency);
+        dest.writeString(flag);
     }
 }

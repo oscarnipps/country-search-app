@@ -1,14 +1,19 @@
 package com.example.countrysearch.ui.search;
 
+import android.app.AlertDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -21,6 +26,7 @@ import com.example.countrysearch.data.model.Country;
 import com.example.countrysearch.databinding.DemoDialogBinding;
 import com.example.countrysearch.databinding.FragmentSearchBinding;
 import com.example.countrysearch.di.ViewModelProviderFactory;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -28,7 +34,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class SearchFragment extends DaggerFragment {
+public class SearchFragment extends DaggerFragment implements SearchItemAdapter.CountryItemInterface {
 
     private static final String TAG = SearchFragment.class.getSimpleName();
     private FragmentSearchBinding binding;
@@ -37,6 +43,7 @@ public class SearchFragment extends DaggerFragment {
     private RecyclerView mRecyclerview;
     private SearchItemAdapter mSearchItemAdapter;
     private List<Country> mCountryList;
+
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -59,7 +66,7 @@ public class SearchFragment extends DaggerFragment {
     private void setUpRecyclerView() {
         mRecyclerview = binding.itemRecyclerView;
 
-        mSearchItemAdapter = new SearchItemAdapter(mCountryList);
+        mSearchItemAdapter = new SearchItemAdapter(mCountryList,this);
 
         mRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -72,27 +79,14 @@ public class SearchFragment extends DaggerFragment {
 
         navController = Navigation.findNavController(view);
 
+        String value = getString(R.string.search_header_title);
+
+        Toast.makeText(requireActivity(), value, Toast.LENGTH_SHORT).show();
+
+
         setUpSearchField();
 
         setUpObservers();
-    }
-
-    private void showDemoDialog() {
-        DemoDialogBinding dialogBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(requireContext()),
-                R.layout.demo_dialog,
-                null,
-                false
-        );
-
-        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                .setView(dialogBinding.getRoot())
-                .setCancelable(true)
-                .create();
-
-        dialog.show();
-
-        dialogBinding.okay.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void setUpObservers() {
@@ -146,4 +140,34 @@ public class SearchFragment extends DaggerFragment {
             }
         });
     }
+
+    @Override
+    public void onCountryItemClicked(Country item) {
+
+        showDemoDialog();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void showDemoDialog() {
+        DemoDialogBinding dialogBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(requireActivity()),
+                R.layout.demo_dialog,
+                null,
+                false
+        );
+
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogBinding.getRoot())
+                .create();
+
+
+        dialog.show();
+
+        dialogBinding.okay.setOnClickListener(v -> dialog.dismiss());
+
+
+    }
+
+
+
 }
