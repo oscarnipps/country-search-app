@@ -1,5 +1,5 @@
-# country search app
-A simplistic mobile application used to search get information about various countries and their details country search app using navigation component , data binding , dagger 2, product flavors implementation , retrofit , rxjava 2 , mvvm architectural pattern and material design theming (dark mode)
+# country search app :earth_asia:
+A simplistic mobile application used to search for information about countries and their details using navigation component with a single activity and multiple fragments also including white labelling feature ( product flavors implementation ).
 
 # Architecture  🏗
 This app uses MVVM (Model View View-Model) architecture with a single activity and multiple fragments (using android navigation components for navigation) and a repository pattern to access data 
@@ -17,6 +17,7 @@ This app uses MVVM (Model View View-Model) architecture with a single activity a
 * Product flavor ('Core' & 'Demo' flavor)
 * LiveData
 * Retrofit
+* Data Binding
 * Gson
 * ViewModel
 * Room Database.
